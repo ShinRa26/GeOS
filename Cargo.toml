@@ -1,0 +1,13 @@
+[package]
+name = "geos"
+version = "0.1.0"
+authors = ["Graham Keenan <grahamkeenan@hotmail.co.uk>"]
+edition = "2018"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+
+[dependencies]
