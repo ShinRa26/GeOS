@@ -9,25 +9,17 @@ fn panic(_info: &PanicInfo) -> ! {
     loop{}
 }
 
-// Linux
-// #[no_mangle]
-// pub extern "C" fn _start() -> ! {
-//     loop{}
-// }
-
-// Linux Compile
-// cargo rustc -- -Z pre-link-arg=-nostartfiles
-
-/// Windows
+static HELLO: &[u8] = b"Hello world!";
 #[no_mangle]
-pub extern "C" fn mainCRTStartup() -> ! {
-    main();
-}
+pub extern "C" fn _start() -> ! {
+    let vga_buffer = 0xb8000 as *mut u8;
 
-#[no_mangle]
-pub extern "C" fn main() -> ! {
+    for (i, &byte) in HELLO.iter().enumerate() {
+        unsafe {
+            *vga_buffer.offset(i as isize * 2) = byte;
+            *vga_buffer.offset(i as isize * 2 + 1) = 0xc;
+        }
+    }
+
     loop{}
 }
-
-// Windows Compile
-// cargo build
