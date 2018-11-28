@@ -46,7 +46,7 @@ struct Buffer {
 pub struct Writer {
     column_position: usize,
     color_code: ColorCode,
-    buffer: &'static mut buffer,
+    buffer: &'static mut Buffer,
 }
 
 impl Writer {
@@ -92,7 +92,7 @@ pub fn print_something() {
     let mut writer = Writer {
         column_position: 0,
         color_code: ColorCode::new(Color::Yellow, Color::Black),
-        buffer: unsafe {&mut *(0xb8000 as *mut buffer)},
+        buffer: unsafe {&mut *(0xb8000 as *mut Buffer)},
     };
 
     writer.write_byte(b'H');
